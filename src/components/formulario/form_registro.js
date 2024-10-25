@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./form.css";
 import { Link } from "wouter";
+import ReCAPTCHA from "react-google-recaptcha";
 //import Swal from "sweetalert2";
 
 export default function Form_registro() {
@@ -12,6 +13,7 @@ export default function Form_registro() {
   const [direccionUsuario, setdireccionUsuario] = useState("");
   const [correoUsuario, setcorreoUsuario] = useState("");
   const [claveUsuario, setclaveUsuario] = useState("");
+
 
   const handSumit = async () => {
     const requiestOptions = {
@@ -52,16 +54,20 @@ export default function Form_registro() {
             <div className="form-c sign-in2">
               <form>
                 <h1>Registrar</h1>
-                <input
-                  type="text"
+                <select className="form-c j" type="text"
                   placeholder="Tipo de documento"
                   value={tipoDocUsuaiorio}
                   onChange={(e) => {
                     e.preventDefault();
                     setTipoDocUsuaiorio(e.target.value);
-                  }}
-                  required
-                />
+                  }} required
+                >
+            <option value="">Selecione un tipo de documento</option>
+            <option value="CC">Cedula de ciudadania</option>
+            <option value="CC">Cedula de extranjeria</option>
+            <option value="TI">Tarjeta de identidad</option>
+            <option value="PP">Permiso de permanencía temporal</option>
+                </select>
                 <input
                   type="number"
                   placeholder="Numero de documento"
@@ -133,6 +139,22 @@ export default function Form_registro() {
                   }}
                   required
                 />
+          <div className="recaptcha">
+            <ReCAPTCHA
+              ref={captcha}
+              sitekey="6LfzRGwqAAAAAMiYIqzAkYCVMkLiSy8rEGZt-qo8"
+              onChange={onChange}
+            />
+          </div>
+          {captchaValido === false && (
+            <div
+              class="alert alert-danger d-flex align-items-center"
+              role="alert"
+            >
+              <div>Por favor acepte el Captcha</div>
+            </div>
+          )}
+
                 <button>Resgistrar</button>
               </form>
             </div>{" "}
